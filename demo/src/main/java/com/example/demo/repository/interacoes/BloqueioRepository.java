@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BloqueioRepository extends JpaRepository<Bloqueios, String> {
+public interface BloqueioRepository extends JpaRepository<Bloqueios, Long> {
 
     // Confere se o Bloqueador já bloqueou o Bloqueado
     boolean existsByUsuarioBloqueadorAndUsuarioBloqueado(Usuario usuarioBloqueador, Usuario usuarioBloqueado);

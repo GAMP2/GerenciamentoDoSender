@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CurtidasRepository extends JpaRepository<Curtidas, String> {
+public interface CurtidasRepository extends JpaRepository<Curtidas, Long> {
 
     //  Verifica se já existe uma curtida do Usuário A para o Usuário B (Retorna true ou false)
     boolean existsByUsuarioOrigemAndUsuarioDestino(Usuario usuarioOrigem, Usuario usuarioDestino);

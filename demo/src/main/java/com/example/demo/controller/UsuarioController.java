@@ -30,17 +30,17 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable String id) {
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable long id) {
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable String id) {
+    public ResponseEntity<String> deletar(@PathVariable long id) {
         usuarioService.bloquearUsuario(id, "Desativado a pedido do utilizador");
         return ResponseEntity.ok("Usuário desativado com sucesso!");
     }
     @PatchMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarParcial(@PathVariable String id, @RequestBody Usuario dadosNovos) {
+    public ResponseEntity<Usuario> atualizarParcial(@PathVariable long id, @RequestBody Usuario dadosNovos) {
         Usuario usuarioAtualizado = usuarioService.atualizarParcial(id, dadosNovos);
         return ResponseEntity.ok(usuarioAtualizado);
     }}

@@ -29,7 +29,7 @@ public class MensagemService {
     private UsuarioService usuarioService;
 
     // Enviar Mensagem
-    public Mensagem enviarMensagem(String conversaId, String remetenteId, String destinatarioId, String conteudoTexto, String urlImagem) {
+    public Mensagem enviarMensagem(long conversaId, long remetenteId, long destinatarioId, String conteudoTexto, String urlImagem) {
         Usuario remetente = usuarioService.buscarPorId(remetenteId);
         Usuario destinatario = usuarioService.buscarPorId(destinatarioId);
 
@@ -53,7 +53,7 @@ public class MensagemService {
     }
 
     //Buscar Mensagens de uma Conversa
-    public List<Mensagem> listarMensagensDaConversa(String conversaId) {
+    public List<Mensagem> listarMensagensDaConversa(long conversaId) {
         Conversa conversa = conversaRepository.findById(conversaId)
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
 
@@ -61,7 +61,7 @@ public class MensagemService {
     }
 
     // Marcar Mensagens como Lidas
-    public void marcarComoLidas(String conversaId, String usuarioId) {
+   public void marcarComoLidas(long conversaId, long usuarioId) {
         Conversa conversa = conversaRepository.findById(conversaId)
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
 
@@ -69,10 +69,10 @@ public class MensagemService {
 
         for (Mensagem m : mensagensNaoLidas) {
             // Marca como lida apenas as mensagens que não foram enviadas pelo próprio utilizador
-            if (!m.getRemetente().getId().toString().equals(usuarioId)) {
+            if (m.getRemetente().getId() ==(usuarioId)) {
                 m.setLidoEm(LocalDateTime.now());
                 mensagemRepository.save(m);
             }
         }
-    }
+   }
 }

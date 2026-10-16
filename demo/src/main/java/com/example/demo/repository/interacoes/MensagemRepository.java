@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MensagemRepository extends JpaRepository<Mensagem, String> {
+public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
 
     // Lista todas as mensagens de uma conversa em ordem cronológica
     List<Mensagem> findByConversaOrderByEnviadoEmAsc(Conversa conversa);

@@ -20,7 +20,7 @@ public class Curtidas {
     private Usuario usuarioOrigem;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_origem_id", nullable = false)
+    @JoinColumn(name = "usuario_destino_id", nullable = false)
     private Usuario usuarioDestino;
 
     private LocalDate dataCurtida = LocalDate.now();

@@ -23,16 +23,16 @@ public class UsuarioService {
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
     }
-    public Usuario buscarPorId(String id) {
-        return usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+    public Usuario buscarPorId(long id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
     }
-    public Usuario bloquearUsuario(String id, String motivo) {
+    public Usuario bloquearUsuario(long id, String motivo) {
         Usuario usuario = buscarPorId(id);
         usuario.setMotivoBloqueio(motivo);
         return usuarioRepository.save(usuario);
     }
-    public Usuario atualizarParcial(String id, Usuario dadosNovos) {
+    public Usuario atualizarParcial(long id, Usuario dadosNovos) {
         Usuario usuarioExistente = buscarPorId(id);
         if (dadosNovos.getNome() != null) {
             usuarioExistente.setNome(dadosNovos.getNome());

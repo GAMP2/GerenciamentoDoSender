@@ -17,9 +17,9 @@ public class MensagemController {
 
     // Enviar mensagem
     @PostMapping
-    public ResponseEntity<Mensagem> enviar(@RequestParam String conversaId,
-                                           @RequestParam String remetenteId,
-                                           @RequestParam String destinatarioId,
+    public ResponseEntity<Mensagem> enviar(@RequestParam long conversaId,
+                                           @RequestParam long remetenteId,
+                                           @RequestParam long destinatarioId,
                                            @RequestParam(required = false) String conteudoTexto,
                                            @RequestParam(required = false) String urlImagem) {
         Mensagem mensagem = mensagemService.enviarMensagem(conversaId, remetenteId, destinatarioId, conteudoTexto, urlImagem);
@@ -28,14 +28,14 @@ public class MensagemController {
 
     // Obter mensagens de uma conversa
     @GetMapping("/conversa/{conversaId}")
-    public ResponseEntity<List<Mensagem>> listar(@PathVariable String conversaId) {
+    public ResponseEntity<List<Mensagem>> listar(@PathVariable long conversaId) {
         List<Mensagem> lista = mensagemService.listarMensagensDaConversa(conversaId);
         return ResponseEntity.ok(lista);
     }
 
     // Marcar mensagens como lidas
     @PutMapping("/ler")
-    public ResponseEntity<String> marcarLidas(@RequestParam String conversaId, @RequestParam String usuarioId) {
+    public ResponseEntity<String> marcarLidas(@RequestParam long conversaId, @RequestParam long usuarioId) {
         mensagemService.marcarComoLidas(conversaId, usuarioId);
         return ResponseEntity.ok("Mensagens marcadas como lidas.");
     }

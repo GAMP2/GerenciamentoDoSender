@@ -20,14 +20,10 @@ import java.time.LocalDate;
 @Table(name = "Usuario")
 public class Usuario {
     //Um usuário tem apenas um perfil
-    @OneToOne(mappedBy = "usuario")
-
-
-
     @Id
     //Cria um valor aleatório
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @NotBlank(message = "O nome não pode estar em branco")
     String nome;

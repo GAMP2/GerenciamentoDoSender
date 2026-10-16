@@ -19,9 +19,9 @@ public class CurtidaService {
     private UsuarioService usuarioService;
 
     // esse método tira a necessidade de rotas separadas de "curtir" e "descurtir" no front-end, o mesmo botão resolve ambas as ações.
-    public String alternarCurtida(String idOrigem, String idDestino) {
+    public String alternarCurtida(long idOrigem, long idDestino) {
         // Não pode curtir a si mesmo
-        if (idOrigem.equals(idDestino)) {
+        if (idOrigem == idDestino) {
             throw new RuntimeException("Um usuário não pode curtir a si mesmo!");
         }
         //Busca os dois usuários no banco via UsuarioService
@@ -34,20 +34,22 @@ public class CurtidaService {
         if (curtidasExistente.isPresent()) {
             // Se já curtiu, descurte (Remove do banco)
             curtidasRepository.delete(curtidasExistente.get());
-            return "Curtida removida com sucesso!";}
-        else {
+            return "Curtida removida com sucesso!";
+        } else {
             // Se não curtiu ainda, salva nova curtida
             Curtidas novaCurtida = new Curtidas();
             curtidasRepository.save(novaCurtida);
             return "Usuário curtido com sucesso!";
         }
     }
-    public long contarCurtidasRecebidas(String idDestino) {
+
+    public long contarCurtidasRecebidas(long idDestino) {
         Usuario usuarioDestino = usuarioService.buscarPorId(idDestino);
-        return curtidasRepository.countByUsuarioDestino(usuarioDestino);}
+        return curtidasRepository.countByUsuarioDestino(usuarioDestino);
+    }
 
     // Lista todas as curtidas recebidas por um usuário
-    public List<Curtidas> listarCurtidasRecebidas(String idDestino) {
+    public List<Curtidas> listarCurtidasRecebidas(long idDestino) {
         Usuario usuarioDestino = usuarioService.buscarPorId(idDestino);
         return curtidasRepository.findByUsuarioDestino(usuarioDestino);
     }

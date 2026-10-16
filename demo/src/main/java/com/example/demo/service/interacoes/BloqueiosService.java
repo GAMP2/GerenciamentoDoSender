@@ -11,12 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-public class BloqueioService {
-
-
-    @Service
-    public class BloqueiosService {
+@Service
+public class BloqueiosService {
 
         @Autowired
         private BloqueioRepository bloqueioRepository;
@@ -28,9 +24,9 @@ public class BloqueioService {
         private UsuarioService usuarioService;
 
         // 1. Método para BLOQUEAR um utilizador
-        public String bloquearUsuario(String idBloqueador, String idBloqueado, String motivo) {
+        public String bloquearUsuario(long idBloqueador, long idBloqueado, String motivo) {
             //Não pode bloquear a si mesmo
-            if (idBloqueador.equals(idBloqueado)) {
+            if (idBloqueador ==idBloqueado) {
                 throw new RuntimeException("Não podes bloquear o teu próprio perfil!");
             }
 
@@ -58,7 +54,7 @@ public class BloqueioService {
         }
 
         //  Método para DESBLOQUEAR um utilizador
-        public String desbloquearUsuario(String idBloqueador, String idBloqueado) {
+        public String desbloquearUsuario(long idBloqueador, long idBloqueado) {
             Usuario bloqueador = usuarioService.buscarPorId(idBloqueador);
             Usuario bloqueado = usuarioService.buscarPorId(idBloqueado);
 
@@ -70,8 +66,8 @@ public class BloqueioService {
         }
 
         //  Listar quem o utilizador bloqueou
-        public List<Bloqueios> listarBloqueados(String idBloqueador) {
+        public List<Bloqueios> listarBloqueados(long idBloqueador) {
             Usuario bloqueador = usuarioService.buscarPorId(idBloqueador);
             return bloqueioRepository.findByUsuarioBloqueador(bloqueador);
         }
-    }}
+    }

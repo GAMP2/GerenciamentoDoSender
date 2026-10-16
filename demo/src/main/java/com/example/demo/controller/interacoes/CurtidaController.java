@@ -16,20 +16,20 @@ public class CurtidaController {
 
     //Rota para curtir e descurtir
     @PostMapping("/alternar")
-    public ResponseEntity<String> alternarCurtida(@RequestParam String idOrigem, @RequestParam String idDestino) {
+    public ResponseEntity<String> alternarCurtida(@RequestParam long idOrigem, @RequestParam long idDestino) {
         String mensagem = curtidaService.alternarCurtida(idOrigem, idDestino);
         return ResponseEntity.ok(mensagem);
     }
 
      //Rota para contar quantas curtidas um usuário recebeu
     @GetMapping("/count/{idDestino}")
-    public ResponseEntity<Long> contarCurtidas(@PathVariable String idDestino) {
+    public ResponseEntity<Long> contarCurtidas(@PathVariable long idDestino) {
         long total = curtidaService.contarCurtidasRecebidas(idDestino);
         return ResponseEntity.ok(total);
     }
     //Rota que lista quem curtiu quem
     @GetMapping("/usuario/{idDestino}")
-    public ResponseEntity<List<Curtidas>> listarCurtidasRecebidas(@PathVariable String idDestino) {
+    public ResponseEntity<List<Curtidas>> listarCurtidasRecebidas(@PathVariable long idDestino) {
         List<Curtidas> lista = curtidaService.listarCurtidasRecebidas(idDestino);
         return ResponseEntity.ok(lista);
     }
