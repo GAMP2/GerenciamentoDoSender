@@ -1,108 +1,82 @@
 package com.example.demo.model;
 
-import com.example.demo.model.enums.Cargo;
-import com.example.demo.model.enums.Genero;
 import com.example.demo.model.enums.Objetivo;
-import com.example.demo.model.enums.StatusUsuario;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.demo.model.enums.Papel;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
-//Nome Da tabela no banco de dados
-@Data // todo Isso gera o getters e os Setters de tudo
+@Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "Usuario")
+@Table(name = "usuarios")
 public class Usuario {
-    //Um usuário tem apenas um perfil
-    @OneToOne(mappedBy = "usuario")
-
-
 
     @Id
-    //Cria um valor aleatório
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(length = 36, updatable = false, nullable = false)
+    private UUID id;
+    //tipo que está no banco
+    //@Column(nullable = false, ...)	Obrigatório: não pode ficar vazio
 
-    @NotBlank(message = "O nome não pode estar em branco")
-    String nome;
-    //@notblank: Garante que o campo seja vazio
-    @NotBlank(message = "O e-mail é obrigatório")
-    @Email(message = "O email deve ser válido")
+    @Column(nullable = false, length = 150)
+    private String nome;
+
+    @Column(nullable = false, length = 50, unique = true)
+    private String username;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Min(value = 0, message = "A idade não pode ser negativa")
-    private int idade;
-
-    //@NotNull: Garante que o campo não seja enviado como nulo.
-    @NotNull(message = "A data de nascimento é obrigatótia")
-    @Past(message = "A data de nascimento não pode ser uma data futura ")
-    //@JsonFormat(pattern = "yyyy-MM-dd"): Garante que o Jackson consiga converter a String do JSON para a data em Java corretamente.
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dtNasc;
-
-    @NotNull(message = "A data de criacao é obrigatória")
-    @Past(message = "A data de criação não pode ser futura")
-    private LocalDate dataCriacao;
-
-    @NotBlank(message = "A senha é obrigatória")
-    @Size(min = 8, max = 20, message = "A senha deve ter entre 8 e 20 caracteres")
-    //@Pattern(regexp = "..."): Aplica uma Expressão Regular (Regex) para garantir a força da senha:
-//(?=.*[0-9]): Exige pelo menos um número.
-//
-//(?=.*[a-z]): Exige pelo menos uma letra minúscula.
-//
-//(?=.*[A-Z]): Exige pelo menos uma letra maiúscula.
-//
-//(?=.*[@#$%^&+=!]): Exige pelo menos um símbolo/caractere especial.
-    @Pattern(
-            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).*$",
-            message = "A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial"
-    )
+    @Column(name = "senha_hash", nullable = false)
     private String senhaHash;
 
+    @Column(nullable = false, length = 20)
+    private String telefone;
+
+    @Column(name = "data_nascimento", nullable = false)
+    private LocalDate dtNasc;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Papel papel;
+
+    @Column(columnDefinition = "TEXT")
     private String biografia;
 
-    public String telefone;
-
-    @Min(value = 16, message = "A idade não pode ser menor que 16 anos!")
-    private int preferenciaMin;
-
-    private int preferenciaMax;
-
-    private boolean verificado;
-
-    private LocalDate dtAtualizacao;
-
-    private LocalDate dtDeletar;
-
-    private boolean ocultoFeed;
-
-///////////////////////ENUMS////////////////////////////////////////////////////////////////////////////////
-    //Renomeia o enum como palavra para o banco de dados
     @Enumerated(EnumType.STRING)
     private Objetivo objetivo;
 
-    @Enumerated(EnumType.STRING)
-    private Genero genero;
+    @Column(name = "idade_pref_min")
+    private Integer preferenciaMin;
 
-    @Enumerated(EnumType.STRING)
-    private Cargo cargo;
+    @Column(name = "idade_pref_max")
+    private Integer preferenciaMax;
 
-    @Enumerated(EnumType.STRING)
-    private StatusUsuario status;
-    private String motivoBloqueio;
-/////////////////////////////////////////////////////////////////////////////////////////////////
+    @Column(name = "oculto_feed", nullable = false)
+    private boolean ocultoFeed;
 
+    private boolean verificado;
 
+    @CreationTimestamp
+    @Column(name = "criado_em", nullable = false, updatable = false)
+    private LocalDateTime criadoEm;
 
+    @UpdateTimestamp
+    @Column(name = "atualizado_em", nullable = false)
+    private LocalDateTime atualizadoEm;
 
-
-
-
+    @Column(name = "deletado_em")
+    private LocalDateTime deletadoEm;
 }
