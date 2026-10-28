@@ -9,4 +9,6 @@ public record ConversaRequest(
 
         @NotNull(message = "O ID do segundo usuário é obrigatório")
         UUID idUsuario2
+
+
 ) {}

@@ -1,18 +1,18 @@
-package com.example.demo.service.interacoes;
+package com.example.demo.service;
 
 import com.example.demo.dto.request.CurtidaRequest;
 import com.example.demo.dto.response.CurtidaResponse;
 import com.example.demo.dto.response.CurtidaStatusResponse;
 import com.example.demo.mapper.CurtidaMapper;
+import com.example.demo.model.Curtidas;
 import com.example.demo.model.Usuario;
-import com.example.demo.model.interacoes.Curtidas;
-import com.example.demo.repository.interacoes.CurtidasRepository;
-import com.example.demo.service.UsuarioService;
+import com.example.demo.repository.CurtidasRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CurtidaService {
@@ -32,8 +32,8 @@ public class CurtidaService {
     // O mesmo botão resolve "curtir" e "descurtir"
     @Transactional
     public CurtidaStatusResponse alternarCurtida(CurtidaRequest request) {
-        Long idOrigem = request.idOrigem();
-        Long idDestino = request.idDestino();
+        UUID idOrigem = request.idOrigem();
+        UUID idDestino = request.idDestino();
 
         if (idOrigem.equals(idDestino)) {
             throw new RuntimeException("Um usuário não pode curtir a si mesmo!");
@@ -57,12 +57,14 @@ public class CurtidaService {
         return new CurtidaStatusResponse(true, "Usuário curtido com sucesso!");
     }
 
-    public long contarCurtidasRecebidas(Long idDestino) {
+    @Transactional(readOnly = true)
+    public long contarCurtidasRecebidas(UUID idDestino) {
         Usuario destino = usuarioService.buscarEntidade(idDestino);
         return curtidasRepository.countByUsuarioDestino(destino);
     }
 
-    public List<CurtidaResponse> listarCurtidasRecebidas(Long idDestino) {
+    @Transactional(readOnly = true)
+    public List<CurtidaResponse> listarCurtidasRecebidas(UUID idDestino) {
         Usuario destino = usuarioService.buscarEntidade(idDestino);
         return curtidasRepository.findByUsuarioDestino(destino).stream()
                 .map(curtidaMapper::toResponse)

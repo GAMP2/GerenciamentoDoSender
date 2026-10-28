@@ -1,42 +1,42 @@
-package com.example.demo.model.interacoes;
+package com.example.demo.model;
 
-import com.example.demo.model.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "bloqueios_usuarios", uniqueConstraints = {
+@Table(name = "bloqueios_usuario", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"id_bloqueador", "id_bloqueado"})
 })
 public class Bloqueios {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_bloqueador", nullable = false)
     private Usuario usuarioBloqueador;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_bloqueado", nullable = false)
     private Usuario usuarioBloqueado;
 
     private String motivo;
 
-    @Column(name = "criado_em")
-    private LocalDateTime criadoEm = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "criado_em", nullable = false, updatable = false)
+    private LocalDateTime criadoEm;
 
-    // Construtor utilitário para facilitar no Service
     public Bloqueios(Usuario usuarioBloqueador, Usuario usuarioBloqueado, String motivo) {
         this.usuarioBloqueador = usuarioBloqueador;
         this.usuarioBloqueado = usuarioBloqueado;
         this.motivo = motivo;
-        this.criadoEm = LocalDateTime.now();
     }
 }

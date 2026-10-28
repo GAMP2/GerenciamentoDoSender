@@ -1,16 +1,15 @@
-package com.example.demo.controller.interacoes;
+package com.example.demo.controller;
 
 import com.example.demo.dto.request.CurtidaRequest;
 import com.example.demo.dto.response.CurtidaResponse;
 import com.example.demo.dto.response.CurtidaStatusResponse;
-import com.example.demo.model.interacoes.Curtidas;
-import com.example.demo.service.interacoes.CurtidaService;
+import com.example.demo.service.CurtidaService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/curtidas")
@@ -28,12 +27,12 @@ public class CurtidaController {
     }
 
     @GetMapping("/{idDestino}/total")
-    public ResponseEntity<Long> contar(@PathVariable Long idDestino) {
+    public ResponseEntity<Long> contar(@PathVariable UUID idDestino) {
         return ResponseEntity.ok(curtidaService.contarCurtidasRecebidas(idDestino));
     }
 
     @GetMapping("/{idDestino}")
-    public ResponseEntity<List<CurtidaResponse>> listar(@PathVariable Long idDestino) {
+    public ResponseEntity<List<CurtidaResponse>> listar(@PathVariable UUID idDestino) {
         return ResponseEntity.ok(curtidaService.listarCurtidasRecebidas(idDestino));
     }
 }

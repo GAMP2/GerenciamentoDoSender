@@ -1,17 +1,17 @@
-package com.example.demo.service.interacoes;
+package com.example.demo.service;
 
 import com.example.demo.dto.request.BloqueioRequest;
 import com.example.demo.dto.response.BloqueioResponse;
 import com.example.demo.mapper.BloqueioMapper;
 import com.example.demo.model.Usuario;
-import com.example.demo.model.interacoes.Bloqueios;
-import com.example.demo.repository.interacoes.BloqueioRepository;
-import com.example.demo.repository.interacoes.CurtidasRepository;
-import com.example.demo.service.UsuarioService;
+import com.example.demo.model.Bloqueios;
+import com.example.demo.repository.BloqueioRepository;
+import com.example.demo.repository.CurtidasRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BloqueioService {
@@ -56,7 +56,7 @@ public class BloqueioService {
     }
 
     @Transactional
-    public void desbloquearUsuario(Long idBloqueador, Long idBloqueado) {
+    public void desbloquearUsuario(UUID idBloqueador, UUID idBloqueado) {
         Usuario bloqueador = usuarioService.buscarEntidade(idBloqueador);
         Usuario bloqueado = usuarioService.buscarEntidade(idBloqueado);
 
@@ -67,7 +67,8 @@ public class BloqueioService {
         bloqueioRepository.delete(bloqueio);
     }
 
-    public List<BloqueioResponse> listarBloqueados(Long idBloqueador) {
+    @Transactional(readOnly = true)
+    public List<BloqueioResponse> listarBloqueados(UUID idBloqueador) {
         Usuario bloqueador = usuarioService.buscarEntidade(idBloqueador);
         return bloqueioRepository.findByUsuarioBloqueador(bloqueador).stream()
                 .map(bloqueioMapper::toResponse)

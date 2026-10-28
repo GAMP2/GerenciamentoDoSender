@@ -31,4 +31,8 @@ public class Conversa {
     @CreationTimestamp
     @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
+
+    public Conversa(Conexao conexao) {
+        this.conexao = conexao;
+    }
 }
