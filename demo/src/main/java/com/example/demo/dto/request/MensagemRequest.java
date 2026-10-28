@@ -3,13 +3,14 @@ package com.example.demo.dto.request;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.UUID;
+
 public record MensagemRequest(
         @NotNull(message = "A conversa é obrigatória")
-        Long conversaId,
+        UUID conversaId,
 
         @NotNull(message = "O remetente é obrigatório")
-        Long remetenteId,
-
+        UUID remetenteId,
 
         String conteudoTexto,
 

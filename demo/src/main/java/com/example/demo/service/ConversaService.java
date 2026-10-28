@@ -1,17 +1,17 @@
-package com.example.demo.service.interacoes;
+package com.example.demo.service;
 
 import com.example.demo.dto.request.ConversaRequest;
 import com.example.demo.dto.response.ConversaResponse;
 import com.example.demo.mapper.ConversaMapper;
 import com.example.demo.model.Usuario;
-import com.example.demo.model.interacoes.Conversa;
-import com.example.demo.repository.interacoes.BloqueioRepository;
-import com.example.demo.repository.interacoes.ConversaRepository;
-import com.example.demo.service.UsuarioService;
+import com.example.demo.model.Conversa;
+import com.example.demo.repository.BloqueioRepository;
+import com.example.demo.repository.ConversaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ConversaService {
@@ -21,7 +21,10 @@ public class ConversaService {
     private final UsuarioService usuarioService;
     private final ConversaMapper conversaMapper;
 
-    public ConversaService(ConversaRepository conversaRepository, BloqueioRepository bloqueioRepository, UsuarioService usuarioService, ConversaMapper conversaMapper) {
+    public ConversaService(ConversaRepository conversaRepository,
+                           BloqueioRepository bloqueioRepository,
+                           UsuarioService usuarioService,
+                           ConversaMapper conversaMapper) {
         this.conversaRepository = conversaRepository;
         this.bloqueioRepository = bloqueioRepository;
         this.usuarioService = usuarioService;
@@ -33,7 +36,7 @@ public class ConversaService {
     public ConversaResponse iniciarConversa(ConversaRequest request) {
         // Regra 1: não existe conversa consigo mesmo
         if (request.idUsuario1().equals(request.idUsuario2())) {
-            throw new RuntimeException("Não é possível iniciar uma conversa consigo mesmo.");
+            throw new IllegalArgumentException("Não é possível iniciar uma conversa consigo mesmo.");
         }
 
         Usuario u1 = usuarioService.buscarEntidade(request.idUsuario1());
@@ -41,10 +44,10 @@ public class ConversaService {
 
         // Regra 2: não pode haver bloqueio entre os dois, em nenhum sentido
         boolean bloqueado =
-                bloqueioRepository.existsByUsuarioBloqueadorAndUsuarioBloqueado(u1, u2)
-                        || bloqueioRepository.existsByUsuarioBloqueadorAndUsuarioBloqueado(u2, u1);
+                bloqueioRepository.existsByBloqueadorIdAndBloqueadoId(u1.getId(), u2.getId())
+                        || bloqueioRepository.existsByBloqueadorIdAndBloqueadoId(u2.getId(), u1.getId());
         if (bloqueado) {
-            throw new RuntimeException("Não é possível iniciar conversa devido a um bloqueio ativo.");
+            throw new IllegalStateException("Não é possível iniciar conversa devido a um bloqueio ativo.");
         }
 
         // Regra 3: se já existe conversa entre os dois, reutiliza; senão cria
@@ -54,13 +57,15 @@ public class ConversaService {
         return conversaMapper.toResponse(conversa);
     }
 
-    public ConversaResponse buscarPorId(Long id) {
+    @Transactional(readOnly = true)
+    public ConversaResponse buscarPorId(UUID id) {
         Conversa conversa = conversaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
         return conversaMapper.toResponse(conversa);
     }
 
-    public List<ConversaResponse> listarConversasDoUsuario(Long usuarioId) {
+    @Transactional(readOnly = true)
+    public List<ConversaResponse> listarConversasDoUsuario(UUID usuarioId) {
         Usuario usuario = usuarioService.buscarEntidade(usuarioId);
         return conversaRepository.listarDoUsuario(usuario).stream()
                 .map(conversaMapper::toResponse)
