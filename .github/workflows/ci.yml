@@ -1,22 +1,55 @@
-name: Java CI
+name: CI (branch madu)
+
 
 on:
   push:
     branches:
-      - main
-
+      - madu
   pull_request:
     branches:
       - main
+      - madu
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-madu-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build e Testes
-
+  build-and-test:
+    name: Build e testes (Java 25 + MySQL)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        working-directory: demo
+
+    # O application.properties principal aponta para MySQL em localhost:3306
+    # e lê DB_USER / DB_PASSWORD do ambiente, então sobe um MySQL de verdade.
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: sender
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      DB_USER: root
+      DB_PASSWORD: root
 
     steps:
-      - name: Checkout do projeto
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Configurar JDK 25
@@ -27,13 +60,27 @@ jobs:
           cache: maven
           cache-dependency-path: demo/pom.xml
 
-      - name: Verificar versão do Java
-        run: java -version
+      - name: Versões
+        run: |
+          java -version
+          chmod +x mvnw
+          ./mvnw --version
 
-      - name: Verificar versão do Maven
-        working-directory: demo
-        run: ./mvnw --version
+      - name: Compilar e rodar testes
+        run: ./mvnw -B -ntp clean verify
 
-      - name: Compilar e executar testes
-        working-directory: demo
-        run: ./mvnw clean verify
+      - name: Publicar relatórios de teste
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: demo/target/surefire-reports/
+          if-no-files-found: ignore
+
+      - name: Publicar o JAR gerado
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-jar
+          path: demo/target/*.jar
+          if-no-files-found: warn
