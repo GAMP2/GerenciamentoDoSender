@@ -50,11 +50,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar JDK
+      - name: Configurar JDK 25
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21' # troque para 25 só se o <java.version> do pom.xml exigir
+          java-version: '25'
           cache: maven
           cache-dependency-path: demo/pom.xml
 
@@ -76,7 +76,7 @@ jobs:
       - name: Esperar o MySQL
         run: |
           for i in $(seq 1 30); do
-            if (echo > /dev/tcp/127.0.0.1/3306) 2>/dev/null; then
+            if mysqladmin ping -h 127.0.0.1 -uroot -proot --silent; then
               echo "MySQL respondendo"
               exit 0
             fi
