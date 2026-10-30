@@ -1,26 +1,22 @@
 name: CI (branch madu)
 
-
 on:
   push:
-    branches:
-      - madu
+    branches: [madu]
   pull_request:
-    branches:
-      - main
-      - madu
+    branches: [main, madu]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-madu-${{ github.ref }}
+  group: ci-madu-${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
   build-and-test:
-    name: Build e testes (Java 25 + MySQL)
+    name: Build e testes
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -28,8 +24,6 @@ jobs:
       run:
         working-directory: demo
 
-    # O application.properties principal aponta para MySQL em localhost:3306
-    # e lê DB_USER / DB_PASSWORD do ambiente, então sobe um MySQL de verdade.
     services:
       mysql:
         image: mysql:8.0
@@ -39,13 +33,74 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd "mysqladmin ping -h 127.0.0.1 -uroot -proot"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
 
     env:
       DB_USER: root
       DB_PASSWORD: root
+      SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/sender?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/sender?useSSL=false&allowPublicKeyRetrieval=true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21' # troque para 25 só se o <java.version> do pom.xml exigir
+          cache: maven
+          cache-dependency-path: demo/pom.xml
+
+      - name: Conferir estrutura do projeto
+        run: |
+          pwd
+          ls -la
+          java -version
+
+      - name: Definir comando Maven
+        run: |
+          if [ -f mvnw ]; then
+            chmod +x mvnw
+            echo "MVN=./mvnw" >> "$GITHUB_ENV"
+          else
+            echo "MVN=mvn" >> "$GITHUB_ENV"
+          fi
+
+      - name: Esperar o MySQL
+        run: |
+          for i in $(seq 1 30); do
+            if (echo > /dev/tcp/127.0.0.1/3306) 2>/dev/null; then
+              echo "MySQL respondendo"
+              exit 0
+            fi
+            echo "Aguardando MySQL ($i/30)..."
+            sleep 3
+          done
+          echo "MySQL não subiu a tempo"
+          exit 1
+
+      - name: Compilar e rodar testes
+        run: $MVN -B -ntp clean verify
+
+      - name: Publicar relatórios de teste
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: demo/target/surefire-reports/
+          if-no-files-found: ignore
+
+      - name: Publicar o JAR
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-jar
+          path: demo/target/*.jar
+          if-no-files-found: warn
