@@ -57,7 +57,6 @@ jobs:
           java-version: '25'
           cache: maven
           cache-dependency-path: demo/pom.xml
-
       - name: Conferir estrutura do projeto
         run: |
           pwd
