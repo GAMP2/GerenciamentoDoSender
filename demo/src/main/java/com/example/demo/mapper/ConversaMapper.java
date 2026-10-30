@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.response.ConversaResponse;
-import com.example.demo.model.Conversa;
+import com.example.demo.entity.Conversa;
 import org.springframework.stereotype.Component;
 
 @Component

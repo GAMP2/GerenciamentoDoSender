@@ -1,7 +1,7 @@
 package com.example.demo.dto.request;
 
-import com.example.demo.model.enums.Objetivo;
-import com.example.demo.model.enums.Papel;
+import com.example.demo.entity.enums.Objetivo;
+import com.example.demo.entity.enums.Papel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 

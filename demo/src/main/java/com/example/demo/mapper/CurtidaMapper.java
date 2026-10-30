@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.response.CurtidaResponse;
-import com.example.demo.model.Curtidas;
+import com.example.demo.entity.Curtidas;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.response.BloqueioResponse;
-import com.example.demo.model.Bloqueios;
+import com.example.demo.entity.Bloqueios;
 import org.springframework.stereotype.Component;
 
 @Component

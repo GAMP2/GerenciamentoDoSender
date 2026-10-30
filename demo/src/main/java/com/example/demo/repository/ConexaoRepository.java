@@ -1,8 +1,8 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Conexao;
-import com.example.demo.model.Usuario;
-import com.example.demo.model.enums.StatusConexao;
+import com.example.demo.entity.Conexao;
+import com.example.demo.entity.Usuario;
+import com.example.demo.entity.enums.StatusConexao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

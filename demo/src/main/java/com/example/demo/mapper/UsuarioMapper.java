@@ -2,7 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.request.UsuarioRequest;
 import com.example.demo.dto.response.UsuarioResponse;
-import com.example.demo.model.Usuario;
+import com.example.demo.entity.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -46,7 +46,8 @@ public class UsuarioMapper {
                 usuario.getPreferenciaMin(),
                 usuario.getPreferenciaMax(),
                 usuario.isVerificado(),
-                usuario.getCriadoEm()
+                usuario.getCriadoEm(),
+                null
         );
     }
 }

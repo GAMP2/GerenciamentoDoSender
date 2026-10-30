@@ -1,14 +1,15 @@
-package com.example.demo.controller.interacoes;
+package com.example.demo.controller;
 
 import com.example.demo.dto.request.MensagemRequest;
 import com.example.demo.dto.response.MensagemResponse;
-import com.example.demo.service.interacoes.MensagemService;
+import com.example.demo.service.MensagemService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/mensagens")
@@ -23,19 +24,21 @@ public class MensagemController {
     // Enviar mensagem
     @PostMapping
     public ResponseEntity<MensagemResponse> enviar(@Valid @RequestBody MensagemRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(mensagemService.enviarMensagem(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(mensagemService.enviarMensagem(request.conversaId(),
+                request.remetenteId(),
+                request.conteudoTexto()));
     }
 
     // Obter mensagens de uma conversa
     @GetMapping("/conversa/{conversaId}")
-    public ResponseEntity<List<MensagemResponse>> listar(@PathVariable Long conversaId) {
-        return ResponseEntity.ok(mensagemService.listarMensagensDaConversa(conversaId));
+    public ResponseEntity<List<MensagemResponse>> listar(@PathVariable UUID conversaId) {
+        return ResponseEntity.ok(mensagemService.listarPorConversa(conversaId));
     }
 
     // Marcar mensagens como lidas
     @PutMapping("/ler")
-    public ResponseEntity<Void> marcarLidas(@RequestParam Long conversaId,
-                                            @RequestParam Long usuarioId) {
+    public ResponseEntity<Void> marcarLidas(@RequestParam UUID conversaId,
+                                            @RequestParam UUID usuarioId) {
         mensagemService.marcarComoLidas(conversaId, usuarioId);
         return ResponseEntity.noContent().build();
     }

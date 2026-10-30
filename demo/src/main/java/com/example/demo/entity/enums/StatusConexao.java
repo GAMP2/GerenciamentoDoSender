@@ -1,4 +1,4 @@
-package com.example.demo.model.enums;
+package com.example.demo.entity.enums;
 
 public enum StatusConexao {
     ATIVA,

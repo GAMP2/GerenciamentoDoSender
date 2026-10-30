@@ -1,7 +1,7 @@
 package com.example.demo.dto.response;
 
-import com.example.demo.model.enums.Objetivo;
-import com.example.demo.model.enums.Papel;
+import com.example.demo.entity.enums.Objetivo;
+import com.example.demo.entity.enums.Papel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
@@ -22,5 +22,6 @@ public record UsuarioResponse(
         Integer preferenciaMin,
         Integer preferenciaMax,
         boolean verificado,
-        LocalDateTime criadoEm
+        LocalDateTime criadoEm,
+        LocalDateTime lidoEm
 ) {}

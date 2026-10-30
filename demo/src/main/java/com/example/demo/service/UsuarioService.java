@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.request.UsuarioRequest;
 import com.example.demo.dto.response.UsuarioResponse;
 import com.example.demo.mapper.UsuarioMapper;
-import com.example.demo.model.Usuario;
+import com.example.demo.entity.Usuario;
 import com.example.demo.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

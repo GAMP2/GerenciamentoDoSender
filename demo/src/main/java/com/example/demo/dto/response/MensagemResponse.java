@@ -12,4 +12,6 @@ public record MensagemResponse(
         String urlImagem,
         LocalDateTime enviadoEm,
         LocalDateTime lidoEm
-) {}
+) {
+
+}

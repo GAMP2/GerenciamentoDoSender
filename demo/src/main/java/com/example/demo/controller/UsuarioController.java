@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.request.UsuarioRequest;
 import com.example.demo.dto.response.UsuarioResponse;
-import com.example.demo.model.Usuario;
+import com.example.demo.entity.Usuario;
 import com.example.demo.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

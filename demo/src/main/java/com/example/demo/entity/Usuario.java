@@ -1,7 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
-import com.example.demo.model.enums.Objetivo;
-import com.example.demo.model.enums.Papel;
+import com.example.demo.entity.enums.Objetivo;
+import com.example.demo.entity.enums.Papel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

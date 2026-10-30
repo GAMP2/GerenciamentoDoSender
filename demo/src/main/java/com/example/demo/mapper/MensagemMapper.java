@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.response.MensagemResponse;
-import com.example.demo.model.interacoes.Mensagem;
+import com.example.demo.entity.Mensagem;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,7 +13,7 @@ public class MensagemMapper {
                 mensagem.getConversa().getId(),
                 mensagem.getRemetente().getId(),
                 mensagem.getRemetente().getNome(),
-                mensagem.getConteudoTexto(),
+                mensagem.getConteudo(),
                 mensagem.getUrlImagem(),
                 mensagem.getEnviadoEm(),
                 mensagem.getLidoEm()

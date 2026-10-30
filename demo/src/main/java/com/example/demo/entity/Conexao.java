@@ -1,7 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.entity;
 
-import com.example.demo.model.enums.StatusConexao;
-import com.example.demo.model.enums.TipoConexao;
+import com.example.demo.entity.enums.StatusConexao;
+import com.example.demo.entity.enums.TipoConexao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
