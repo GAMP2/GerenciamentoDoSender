@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class ConversaService {
 
@@ -67,12 +69,12 @@ public class ConversaService {
                 .orElseThrow(() -> new RuntimeException("Conversa não encontrada."));
         return conversaMapper.toResponse(conversa);
     }
-
     @Transactional(readOnly = true)
     public List<ConversaResponse> listarConversasDoUsuario(UUID usuarioId) {
         Usuario usuario = usuarioService.buscarEntidade(usuarioId);
-        return conversaRepository.listarDoUsuario(usuario).stream()
+        return conversaRepository.findByConexaoUsuarioAOrConexaoUsuarioB(usuario, usuario)
+                .stream()
                 .map(conversaMapper::toResponse)
                 .toList();
-    }
-}
+
+    }}
