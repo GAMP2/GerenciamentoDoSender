@@ -22,6 +22,4 @@ public interface ConversaRepository extends JpaRepository<Conversa, UUID> {
     @Query("SELECT c FROM Conversa c WHERE c.conexao.usuario1 = :usuario OR c.conexao.usuario2 = :usuario")
     List<Conversa> listarDoUsuario(@Param("usuario") Usuario usuario);
 
-    @Query("SELECT c FROM Conexao c WHERE (c.usuario1 = :u1 AND c.usuario2 = :u2) OR (c.usuario1 = :u2 AND c.usuario2 = :u1)")
-    Optional<Conexao> buscarEntreUsuarios(@Param("u1") Usuario u1, @Param("u2") Usuario u2);
 }
