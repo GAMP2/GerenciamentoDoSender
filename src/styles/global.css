@@ -1,0 +1,37 @@
+:root{
+/* ------------ AMIZADE ------------ */
+
+    --color-amgcolor100: #90E39A;
+    --color-amgclaro100: #C7F1CC;
+    --color-amgescuro100: #35813E;
+
+    --color-amgcolor200: #08BDBD;
+    --color-amgclaro200: #83DEDE;
+    --color-amgescuro200: #257B7B;
+
+    --color-amgcolor300: #9B72CF;
+    --color-amgclaro300: #C0ACD8;
+    --color-amgescuro300: #442072;
+
+/* ------------ ROMANCE ------------ */
+
+    --color-romcolor400: #FCA311;
+    --color-romclaro400: #FDD188;
+    --color-romescuro400: #C97D00;
+
+    --color-romcolor500: #E32E73;
+    --color-romclaro500: #F197B9;
+    --color-romescuro500: #B40A4B;
+
+    --color-romcolor600: #81001F;
+    --color-romclaro600: #C0808F;
+    --color-romescuro600: #4E0F1E;
+
+/* ------------ FONTES ------------ */
+
+    --font-title: "Sora", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-button: "Roboto Mono", monospace;
+
+
+}
