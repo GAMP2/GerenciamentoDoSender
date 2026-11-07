@@ -59,8 +59,13 @@ public class ConversaService {
 
         Conversa conversa = conversaRepository.findByConexao(conexao)
                 .orElseGet(() -> conversaRepository.save(new Conversa(conexao)));
+        // Se no seu construtor ela aceitar a conexão, você pode testar passando null: new Conversa(null);
+        // ou setando os campos se ela aceitar usuários: conversa.setUsuario1(u1); conversa.setUsuario2(u2);
+
+        conversa = conversaRepository.save(conversa);
 
         return conversaMapper.toResponse(conversa);
+
     }
 
     @Transactional(readOnly = true)
