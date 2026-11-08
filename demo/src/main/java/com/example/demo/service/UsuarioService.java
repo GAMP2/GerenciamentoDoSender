@@ -64,7 +64,6 @@ public class UsuarioService {
         return usuario;
     }
 
-    // "Exclusão lógica": o usuário continua no banco, mas marcado como apagado
     public void desativar(UUID id) {
         Usuario usuario = buscarEntidade(id);
         usuario.setDeletadoEm(LocalDateTime.now());
@@ -77,7 +76,22 @@ public class UsuarioService {
         if (dadosNovos.getNome() != null) {
             usuarioExistente.setNome(dadosNovos.getNome());
         }
-        // só confere e-mail repetido se o e-mail realmente mudou
+        if (dadosNovos.getBiografia() != null) {
+            usuarioExistente.setBiografia(dadosNovos.getBiografia());
+        }
+        if (dadosNovos.getTelefone() != null) {
+            usuarioExistente.setTelefone(dadosNovos.getTelefone());
+        }
+        if (dadosNovos.getObjetivo() != null) {
+            usuarioExistente.setObjetivo(dadosNovos.getObjetivo());
+        }
+        if (dadosNovos.getPreferenciaMin() > 0) {
+            usuarioExistente.setPreferenciaMin(dadosNovos.getPreferenciaMin());
+        }
+        if (dadosNovos.getPreferenciaMax() > 0) {
+            usuarioExistente.setPreferenciaMax(dadosNovos.getPreferenciaMax());
+        }
+
         if (dadosNovos.getEmail() != null
                 && !dadosNovos.getEmail().equals(usuarioExistente.getEmail())) {
             if (usuarioRepository.existsByEmail(dadosNovos.getEmail())) {
@@ -88,4 +102,5 @@ public class UsuarioService {
 
         return usuarioMapper.toResponse(usuarioRepository.save(usuarioExistente));
     }
+
 }
