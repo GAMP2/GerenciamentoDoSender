@@ -71,7 +71,13 @@ public class MensagemService {
         mensagensNaoLidas.stream()
                 .filter(mensagem -> !mensagem.getRemetente().getId().equals(usuarioId))
                 .forEach(mensagem -> mensagem.setLidoEm(agora));
-
-
     }
+    @Transactional
+    public void deletarMensagem(UUID id) {
+        if (!mensagemRepository.existsById(id)) {
+            throw new IllegalArgumentException("Mensagem não encontrada com o ID fornecido");
+        }
+        mensagemRepository.deleteById(id);
+    }
+
 }
