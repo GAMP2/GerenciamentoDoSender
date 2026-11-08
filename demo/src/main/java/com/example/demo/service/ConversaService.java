@@ -82,4 +82,13 @@ public class ConversaService {
                 .map(conversaMapper::toResponse)
                 .toList();
 
-    }}
+    }
+    @org.springframework.transaction.annotation.Transactional
+    public void deletarConversa(UUID id) {
+        if (!conversaRepository.existsById(id)) {
+            throw new IllegalArgumentException("Conversa não encontrada com o ID fornecido");
+        }
+        conversaRepository.deleteById(id);
+    }
+
+}

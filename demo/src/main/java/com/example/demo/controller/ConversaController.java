@@ -36,4 +36,10 @@ public class ConversaController {
     public ResponseEntity<List<ConversaResponse>> listarConversasDoUsuario(@PathVariable UUID usuarioId) {
         return ResponseEntity.ok(conversaService.listarConversasDoUsuario(usuarioId));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarConversa(@PathVariable UUID id) {
+        conversaService.deletarConversa(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
