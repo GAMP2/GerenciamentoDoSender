@@ -19,8 +19,8 @@ public class SuspensoesService {
     private final SuspensoesRepository suspensoesRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public SuspensoesService(SuspensoesRepository suspensoesRepository,
-                             UsuarioRepository usuarioRepository) {
+
+    public SuspensoesService(SuspensoesRepository suspensoesRepository, UsuarioRepository usuarioRepository) {
         this.suspensoesRepository = suspensoesRepository;
         this.usuarioRepository = usuarioRepository;
     }
@@ -45,16 +45,12 @@ public class SuspensoesService {
 
     @Transactional(readOnly = true)
     public List<SuspensoesResponse> listarPorUsuario(UUID usuarioId) {
-        return suspensoesRepository.findByUsuarioId(usuarioId).stream()
-                .map(this::toResponse)
-                .toList();
+        return suspensoesRepository.findByUsuarioId(usuarioId).stream().map(this::toResponse).toList();
     }
 
     @Transactional(readOnly = true)
     public List<SuspensoesResponse> listarTodas() {
-        return suspensoesRepository.findAll().stream()
-                .map(this::toResponse)
-                .toList();
+        return suspensoesRepository.findAll().stream().map(this::toResponse).toList();
     }
 
     private SuspensoesResponse toResponse(Suspensoes s) {
@@ -69,4 +65,5 @@ public class SuspensoesService {
                 s.getObservacaoDecisao()
         );
     }
+
 }

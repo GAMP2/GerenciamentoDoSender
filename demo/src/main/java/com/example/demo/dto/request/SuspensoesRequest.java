@@ -16,4 +16,5 @@ public record SuspensoesRequest(
         LocalDate dataRevisao,
         LocalDate dataEntrega,
         String observacaoDecisao
-) {}
+) {
+}
