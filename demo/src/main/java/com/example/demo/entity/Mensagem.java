@@ -25,11 +25,11 @@ public class Mensagem {
     private UUID id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "conversa_id", nullable = false)
+    @JoinColumn(name = "id_conversa", nullable = false)
     private Conversa conversa;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "remetente_id", nullable = false)
+    @JoinColumn(name = "id_remetente", nullable = false)
     private Usuario remetente;
 
     @Column(nullable = false, columnDefinition = "TEXT")

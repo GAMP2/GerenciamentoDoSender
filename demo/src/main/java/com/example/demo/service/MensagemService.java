@@ -41,37 +41,37 @@ public class MensagemService {
         return mensagemRepository.findByConversaOrderByEnviadoEmAsc(conversa)
                 .stream()
                 .map(mensagemMapper::toResponse)
-                .toList();
-    }
-    ///Garante que a operação ocorra dentro de uma transação do banco. Se acontecer qualquer erro durante o processo,
-    /// o Spring desfaz a operação (rollback) para não salvar dados incompletos.
-    @Transactional
-    public MensagemResponse enviarMensagem(UUID conversaId, UUID remetenteId, String conteudo) {
-        Conversa conversa = conversaRepository.findById(conversaId)
-                .orElseThrow(() -> new IllegalArgumentException("Conversa não encontrada com o ID fornecido"));
-        Usuario remetente = usuarioRepository.findById(remetenteId)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o ID fornecido"));
+                .toList();}
+        @Transactional
+        public MensagemResponse enviarMensagem(UUID conversaId, UUID remetenteId, String conteudo) {
+            Conversa conversa = conversaRepository.findById(conversaId)
+                    .orElseThrow(() -> new IllegalArgumentException("Conversa não encontrada com o ID fornecido"));
+            Usuario remetente = usuarioRepository.findById(remetenteId)
+                    .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o ID fornecido"));
 
-        Mensagem mensagem = new Mensagem();
-        Mensagem mensagemSalva = mensagemRepository.save(mensagem);
+            Mensagem mensagem = new Mensagem();
+            mensagem.setConversa(conversa);
+            mensagem.setRemetente(remetente);
+            mensagem.setConteudo(conteudo);
+            mensagem.setEnviadoEm(LocalDateTime.now());
 
-        return mensagemMapper.toResponse(mensagemSalva);
-    }
-    @Transactional
+            Mensagem mensagemSalva = mensagemRepository.save(mensagem);
+
+            return mensagemMapper.toResponse(mensagemSalva);
+        }
+
+        @Transactional
     public void marcarComoLidas(UUID conversaId, UUID usuarioId) {
         Conversa conversa = conversaRepository.findById(conversaId)
                 .orElseThrow(() -> new IllegalArgumentException("Conversa não encontrada"));
 
-        // 1. Busca todas as mensagens não lidas da conversa
         List<Mensagem> mensagensNaoLidas = mensagemRepository.findByConversaAndLidoEmIsNull(conversa);
 
-        // 2. Filtra para alterar apenas as mensagens enviadas por OUTRO usuário (não pelo próprio leitor)
         LocalDateTime agora = LocalDateTime.now();
         mensagensNaoLidas.stream()
                 .filter(mensagem -> !mensagem.getRemetente().getId().equals(usuarioId))
                 .forEach(mensagem -> mensagem.setLidoEm(agora));
 
-        // O Spring salva automaticamente ao final do @Transactional (Dirty Checking),
-        // ou você pode chamar mensagemRepository.saveAll(mensagensNaoLidas);
+
     }
 }
