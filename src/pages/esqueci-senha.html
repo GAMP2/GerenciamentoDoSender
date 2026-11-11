@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Magabys, Pedro, Andre and Madu">
+    <title>Sender - Esqueci a senha</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Sora:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/esqueci-senha.css">
+</head>
+
+<body class="tela-fluxo">
+
+    <main class="cartao">
+
+        <h1>Esqueceu a senha?</h1>
+
+        <p class="apoio">
+            Digite seu e-mail ou telefone e enviaremos um código para redefinir.
+        </p>
+
+        <form action="codigo-email.html" method="get" id="formulario">
+
+            <label class="rotulo" for="identificador">
+                E-mail ou telefone
+            </label>
+
+            <div class="borda">
+                <input
+                    type="text"
+                    id="identificador"
+                    name="identificador"
+                    placeholder="E-mail ou telefone"
+                    autocomplete="username"
+                    required
+                    pattern="([^\s@]+@[^\s@]+\.[^\s@]{2,})|(\(?\d{2}\)?\s?\d{4,5}-?\d{4})"
+                    title="Digite um e-mail válido ou um telefone com DDD, ex.: (11) 99999-9999">
+            </div>
+
+            <button class="botao" type="submit">
+                Próximo
+            </button>
+
+        </form>
+
+        <a class="link" href="index.html">
+            Voltar ao <u>início</u>
+        </a>
+
+        <a class="link" href="#">
+            Precisa de ajuda? <u>Suporte</u>
+        </a>
+
+    </main>
+
+    <script>
+        const formulario = document.getElementById("formulario");
+        const identificador = document.getElementById("identificador");
+
+        formulario.addEventListener("submit", function() {
+
+            if (identificador.value.includes("@")) {
+                formulario.action = "codigo-email.html";
+            } else {
+                formulario.action = "codigo-sms.html";
+            }
+
+        });
+    </script>
+
+</body>
+</html>

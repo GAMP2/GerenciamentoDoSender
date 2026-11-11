@@ -1,0 +1,293 @@
+
+:root {
+    --verde: #8ee4a0;
+    --ciano: #1cc2b9;
+    --roxo: #9b6bc8;
+    --vinho: #800020;
+    --rosa: #e02b73;
+    --laranja: #ff9f1c;
+
+    --gradiente: linear-gradient(90deg, var(--verde), var(--ciano), var(--roxo), var(--vinho), var(--rosa), var(--laranja));
+    --texto: #111;
+    --texto-suave: #555;
+    --erro: #d62839;
+    --ok: #1a9e5a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.tela-fluxo {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    color: var(--texto);
+    background: #1a1a1a url("../assets/images/fundoLoginSender.svg") center top / cover no-repeat;
+}
+
+.cartao {
+    width: 100%;
+    max-width: 420px;
+    padding: 32px 28px 28px;
+    background: #fff;
+    border-radius: 32px 32px 0 0;
+}
+
+.passo[hidden] {
+    display: none;
+}
+
+h1 {
+    margin: 0 0 12px;
+    font-family: "Sora", sans-serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.apoio {
+    margin: 0 0 24px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--texto-suave);
+}
+
+.rotulo {
+    display: block;
+    margin: 16px 0 6px;
+    font-family: "Sora", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.borda {
+    padding: 2px;
+    border-radius: 10px;
+    background: var(--gradiente);
+}
+
+.borda input,
+.borda .interno {
+    width: 100%;
+    border: 0;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.borda input {
+    padding: 12px 14px;
+    font: inherit;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.borda:focus-within {
+    box-shadow: 0 0 0 3px rgba(155, 107, 200, 0.35);
+}
+
+.borda .interno {
+    display: flex;
+    align-items: center;
+}
+
+.borda .interno input {
+    flex: 1;
+}
+
+.olho {
+    padding: 0 12px;
+    border: 0;
+    background: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.erro {
+    min-height: 1.2em;
+    margin: 8px 0 0;
+    font-size: 0.8rem;
+    color: var(--erro);
+}
+
+.borda.invalido {
+    background: var(--erro);
+}
+
+.botao {
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+    padding: 14px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--gradiente);
+    color: #fff;
+    font-family: "Sora", sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+}
+
+.botao:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.botao:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.link,
+.link-botao {
+    display: block;
+    margin: 10px auto;
+    border: 0;
+    background: none;
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--texto);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-botao[hidden] {
+    display: none;
+}
+
+.link-botao:hover,
+.link:hover {
+    color: var(--roxo);
+}
+
+.codigo {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.caixa {
+    flex: 1;
+    max-width: 52px;
+    border-radius: 12px;
+}
+
+.caixa input {
+    padding: 10px 0;
+    font-family: "Sora", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.reenvio {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 4px 0 16px;
+    text-align: center;
+    font-size: 0.78rem;
+}
+
+.reenvio strong {
+    font-family: "Sora", sans-serif;
+    font-weight: 600;
+}
+
+.reenvio span {
+    color: #9a9a9a;
+}
+
+.regras {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+}
+
+.regras li {
+    position: relative;
+    padding: 2px 0 2px 22px;
+}
+
+.regras li::before {
+    content: "○";
+    position: absolute;
+    left: 0;
+    color: #aaa;
+}
+
+.regras li.ok {
+    color: var(--ok);
+}
+
+.regras li.ok::before {
+    content: "✓";
+    color: var(--ok);
+}
+
+.tempo-bloqueio {
+    margin: 0 0 8px;
+    font-family: "Sora", sans-serif;
+    font-size: 2.6rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: #222;
+    color: #fff;
+    font-size: 0.85rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 20px);
+    transition: opacity 0.25s, transform 0.25s;
+}
+
+.toast.visivel {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.campo-codigo {
+    font-family: "Sora", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.6em;
+    text-align: center;
+    text-indent: 0.6em;
+}
+
+.dica {
+    margin: 10px 0 0;
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+}
+
+.borda:has(input:user-invalid) {
+    background: var(--erro);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
