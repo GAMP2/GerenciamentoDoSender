@@ -2,15 +2,15 @@
 /* ------------ AMIZADE ------------ */
 
     --color-amgcolor100: #90E39A;
-    --color-amgclaro100: #C7F1CC;
-    --color-amgescuro100: #35813E;
-
     --color-amgcolor200: #08BDBD;
-    --color-amgclaro200: #83DEDE;
-    --color-amgescuro200: #257B7B;
-
     --color-amgcolor300: #9B72CF;
+
+    --color-amgclaro100: #C7F1CC;
+    --color-amgclaro200: #83DEDE;
     --color-amgclaro300: #C0ACD8;
+
+    --color-amgescuro100: #35813E;
+    --color-amgescuro200: #257B7B;
     --color-amgescuro300: #442072;
 
 /* ------------ ROMANCE ------------ */
