@@ -16,15 +16,16 @@
 /* ------------ ROMANCE ------------ */
 
     --color-romcolor400: #FCA311;
+     --color-romcolor500: #E32E73;
+     --color-romcolor600: #81001F;
+    
+
     --color-romclaro400: #FDD188;
-    --color-romescuro400: #C97D00;
-
-    --color-romcolor500: #E32E73;
     --color-romclaro500: #F197B9;
-    --color-romescuro500: #B40A4B;
-
-    --color-romcolor600: #81001F;
     --color-romclaro600: #C0808F;
+
+    --color-romescuro400: #C97D00;
+    --color-romescuro500: #B40A4B;
     --color-romescuro600: #4E0F1E;
 
 /* ------------ FONTES ------------ */
