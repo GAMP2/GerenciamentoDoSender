@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Magabys, Pedro, Andre and Madu">
+    <title>Sender - Código por e-mail</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Sora:wght@600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/esqueci-senha.css">
+</head>
+<body class="tela-fluxo">
+    <main class="cartao">
+        <h1>Insira o código</h1>
+        <p class="apoio">Enviamos um código via e-mail para lu****@gmail.com. Verifique sua caixa de entrada.</p>
+
+        <form action="nova-senha.html" method="get">
+            <div class="borda">
+                <input class="campo-codigo" type="text" name="codigo" inputmode="numeric"
+                       maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code"
+                       placeholder="000000" aria-label="Código de 6 dígitos" required
+                       title="Digite os 6 números do código">
+            </div>
+
+            <button class="botao" type="submit">Confirmar</button>
+        </form>
+
+        <p class="reenvio">
+            <strong>Não recebeu o código?</strong>
+            <span>Tentar novamente em 0:30</span>
+        </p>
+
+        <a class="link" href="#">Precisa de ajuda? <u>Suporte</u></a>
+        <a class="link" href="esqueci-senha.html">Usar outro e-mail</a>
+    </main>
+</body>
+</html>
