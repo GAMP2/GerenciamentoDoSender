@@ -26,60 +26,169 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Debug Jira Connection
+      - name: Import Jira → GitHub
         env:
           JIRA_URL: ${{ secrets.JIRA_URL }}
           JIRA_USER: ${{ secrets.JIRA_USER }}
           JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+          PROJECT_KEY: ${{ github.event.inputs.jira_project_key }}
         run: |
           python << 'EOF'
           import os
           import requests
+          import json
+          import time
 
           JIRA_URL = os.getenv('JIRA_URL').rstrip('/')
           JIRA_USER = os.getenv('JIRA_USER')
           JIRA_TOKEN = os.getenv('JIRA_TOKEN')
-          auth = (JIRA_USER, JIRA_TOKEN)
+          GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+          GITHUB_REPO = os.getenv('GITHUB_REPO')
+          PROJECT_KEY = os.getenv('PROJECT_KEY')
 
-          print(f"Testando conexão com: {JIRA_URL}")
+          jira_auth = (JIRA_USER, JIRA_TOKEN)
+          jira_headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+          gh_headers = {
+              'Authorization': f'token {GITHUB_TOKEN}',
+              'Accept': 'application/vnd.github.v3+json'
+          }
 
-          # Teste 1: /myself
-          for endpoint in ['/rest/api/3/myself', '/rest/api/2/myself', '/rest/api/latest/myself']:
-              url = f'{JIRA_URL}{endpoint}'
-              try:
-                  r = requests.get(url, auth=auth, timeout=10)
-                  print(f"  {endpoint}: {r.status_code}")
-                  if r.status_code == 200:
-                      print(f"    OK: {r.json().get('displayName', 'N/A')}")
-                      break
-              except Exception as e:
-                  print(f"  {endpoint}: ERRO - {e}")
+          # 1. Buscar issues do Jira (NOVA API: /search/jql)
+          print(f"Buscando issues do projeto {PROJECT_KEY}...")
+          jira_issues = []
+          next_page_token = None
 
-          # Teste 2: buscar projetos
-          for endpoint in ['/rest/api/3/project', '/rest/api/2/project']:
-              url = f'{JIRA_URL}{endpoint}'
-              try:
-                  r = requests.get(url, auth=auth, timeout=10)
-                  print(f"  {endpoint}: {r.status_code}")
-                  if r.status_code == 200:
-                      projects = [p['key'] for p in r.json()]
-                      print(f"    Projetos: {', '.join(projects[:10])}")
-                      break
-              except Exception as e:
-                  print(f"  {endpoint}: ERRO - {e}")
+          while True:
+              payload = {
+                  'jql': f'project = {PROJECT_KEY} ORDER BY created ASC',
+                  'maxResults': 100,
+                  'fields': ['summary', 'description', 'issuetype', 'status', 'priority', 'assignee', 'reporter', 'labels', 'created', 'updated', 'comment']
+              }
+              if next_page_token:
+                  payload['nextPageToken'] = next_page_token
 
-          # Teste 3: search com JQL simples
-          for endpoint in ['/rest/api/3/search', '/rest/api/2/search', '/rest/api/latest/search']:
-              url = f'{JIRA_URL}{endpoint}'
-              try:
-                  r = requests.get(url, auth=auth, params={'jql': 'project = KAN', 'maxResults': 1}, timeout=10)
-                  print(f"  {endpoint} (search): {r.status_code}")
-                  if r.status_code == 200:
-                      print(f"    Total: {r.json().get('total', 0)}")
-                      break
+              resp = requests.post(
+                  f'{JIRA_URL}/rest/api/3/search/jql',
+                  auth=jira_auth,
+                  headers=jira_headers,
+                  json=payload
+              )
+              resp.raise_for_status()
+              data = resp.json()
+              jira_issues.extend(data.get('issues', []))
+              print(f"  {len(jira_issues)} issues...")
+
+              next_page_token = data.get('nextPageToken')
+              if not next_page_token:
+                  break
+              time.sleep(0.2)
+
+          print(f"Total: {len(jira_issues)} issues")
+
+          # 2. Mapear status Jira -> GitHub labels
+          status_map = {
+              'To Do': 'todo',
+              'In Progress': 'in-progress',
+              'Done': 'done',
+              'Backlog': 'backlog',
+              'Em Andamento': 'in-progress',
+              'A Fazer': 'todo',
+              'Concluído': 'done',
+              'Concluido': 'done',
+          }
+
+          # 3. Função para extrair texto de ADF (Atlassian Document Format)
+          def extract_adf_text(node):
+              if not node:
+                  return ''
+              if isinstance(node, str):
+                  return node
+              if node.get('type') == 'text':
+                  return node.get('text', '')
+              texts = []
+              for child in node.get('content', []):
+                  texts.append(extract_adf_text(child))
+              return ''.join(texts)
+
+          # 4. Criar issues no GitHub
+          created = 0
+          skipped = 0
+          for issue in jira_issues:
+              key = issue['key']
+              fields = issue['fields']
+
+              title = f"[{key}] {fields.get('summary', '(sem título)')}"
+
+              # Body
+              body = f"**Jira Key:** {key}\n"
+              body += f"**Original URL:** {JIRA_URL}/browse/{key}\n\n"
+
+              # Description (ADF ou string)
+              desc = fields.get('description')
+              if desc:
+                  if isinstance(desc, dict):
+                      body += extract_adf_text(desc) + '\n\n'
                   else:
-                      print(f"    Response: {r.text[:200]}")
-              except Exception as e:
-                  print(f"  {endpoint} (search): ERRO - {e}")
+                      body += str(desc) + '\n\n'
+
+              # Labels
+              labels = []
+              if fields.get('issuetype'):
+                  labels.append(fields['issuetype']['name'].lower().replace(' ', '-'))
+              if fields.get('priority'):
+                  labels.append(f"priority:{fields['priority']['name'].lower().replace(' ', '-')}")
+              status_name = fields.get('status', {}).get('name', '')
+              if status_name:
+                  labels.append(status_map.get(status_name, status_name.lower().replace(' ', '-')))
+              if fields.get('labels'):
+                  labels.extend([l.lower().replace(' ', '-') for l in fields['labels']])
+
+              # Criar issue
+              payload = {
+                  'title': title,
+                  'body': body,
+                  'labels': labels[:10]
+              }
+
+              resp = requests.post(
+                  f'https://api.github.com/repos/{GITHUB_REPO}/issues',
+                  headers=gh_headers,
+                  json=payload
+              )
+
+              if resp.status_code == 201:
+                  created += 1
+                  gh_issue = resp.json()
+                  print(f"  ✅ {key} -> #{gh_issue['number']}")
+
+                  # Importar comentários
+                  comments = fields.get('comment', {}).get('comments', [])
+                  for comment in comments:
+                      c_body = comment.get('body', '')
+                      if isinstance(c_body, dict):
+                          c_body = extract_adf_text(c_body)
+                      author = comment.get('author', {}).get('displayName', 'Unknown')
+                      c_body = f"**{author}** commented on Jira:\n\n{c_body}"
+                      requests.post(
+                          f"https://api.github.com/repos/{GITHUB_REPO}/issues/{gh_issue['number']}/comments",
+                          headers=gh_headers,
+                          json={'body': c_body}
+                      )
+                      time.sleep(0.2)
+
+              elif resp.status_code == 422 and 'already_exists' in resp.text.lower():
+                  skipped += 1
+                  print(f"  ⏭️  {key} já existe")
+              else:
+                  print(f"  ❌ {key}: {resp.status_code} - {resp.text[:200]}")
+
+              time.sleep(0.5)
+
+          print(f"\n=== CONCLUÍDO ===")
+          print(f"Criadas: {created}")
+          print(f"Puladas: {skipped}")
+          print(f"Total processadas: {len(jira_issues)}")
 
           EOF
