@@ -1,0 +1,27 @@
+name: Import Jira Issues
+on:
+  workflow_dispatch:
+    inputs:
+      jira_project_key:
+        description: 'Jira Project Key (ex: KAN)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Import Jira issues
+        uses: github/gh-issue-importer@v1
+        with:
+          jira-url: ${{ secrets.JIRA_URL }}
+          jira-user: ${{ secrets.JIRA_USER }}
+          jira-token: ${{ secrets.JIRA_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-repo: ${{ github.repository }}
+          project-key: ${{ github.event.inputs.jira_project_key }}
+          confirm: 'true'
