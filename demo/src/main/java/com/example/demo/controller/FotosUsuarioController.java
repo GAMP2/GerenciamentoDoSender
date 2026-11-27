@@ -34,4 +34,10 @@ public class FotosUsuarioController {
         fotosUsuarioService.deletarFoto(fotoId);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{fotoId}")
+    public ResponseEntity<FotosUsuarioResponse> atualizarFoto(
+            @PathVariable UUID fotoId,
+            @RequestParam String novaFotoUrl) {
+        return ResponseEntity.ok(fotosUsuarioService.atualizarFoto(fotoId, novaFotoUrl));
+    }
 }

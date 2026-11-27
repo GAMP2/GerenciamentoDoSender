@@ -42,4 +42,9 @@ public class MensagemController {
         mensagemService.marcarComoLidas(conversaId, usuarioId);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarMensagem(@PathVariable UUID id) {
+        mensagemService.deletarMensagem(id);
+        return ResponseEntity.noContent().build();
+    }
 }

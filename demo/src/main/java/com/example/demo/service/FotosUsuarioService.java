@@ -56,4 +56,19 @@ public class FotosUsuarioService {
         }
         fotosUsuarioRepository.deleteById(fotoId);
     }
+    @Transactional
+    public FotosUsuarioResponse atualizarFoto(UUID fotoId, String novaFotoUrl) {
+        FotosUsuario foto = fotosUsuarioRepository.findById(fotoId)
+                .orElseThrow(() -> new IllegalArgumentException("Foto não encontrada"));
+
+        foto.setFotoUrl(novaFotoUrl);
+
+        FotosUsuario fotoAtualizada = fotosUsuarioRepository.save(foto);
+
+        return new FotosUsuarioResponse(
+                fotoAtualizada.getId(),
+                fotoAtualizada.getUsuario().getId(),
+                fotoAtualizada.getFotoUrl()
+        );
+    }
 }

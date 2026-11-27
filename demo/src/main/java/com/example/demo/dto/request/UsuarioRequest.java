@@ -15,6 +15,8 @@ public record UsuarioRequest(
         @NotBlank(message = "O username é obrigatório")
         @Size(min = 3, max = 50, message = "O username deve ter entre 3 e 50 caracteres")
         String username,
+        @Size(max = 101, message = "A biografia deve ter no máximo 101 caracteres")
+        String biografia,
 
         @NotBlank(message = "O e-mail é obrigatório")
         @Email(message = "O email deve ser válido")
@@ -39,8 +41,6 @@ public record UsuarioRequest(
 
         @NotNull(message = "O papel é obrigatório")
         Papel papel,
-
-        String biografia,
 
         Objetivo objetivo,
 
