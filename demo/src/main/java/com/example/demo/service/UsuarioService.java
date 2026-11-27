@@ -17,14 +17,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
-    private final PasswordEncoder passwordEncoder;
+
 
     public UsuarioService(UsuarioRepository usuarioRepository,
-                          UsuarioMapper usuarioMapper,
-                          PasswordEncoder passwordEncoder) {
+                          UsuarioMapper usuarioMapper) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
-        this.passwordEncoder = passwordEncoder;
     }
 
     // Cadastrar um usuário novo
@@ -37,7 +35,7 @@ public class UsuarioService {
         }
 
         Usuario usuario = usuarioMapper.toEntity(request);
-        usuario.setSenhaHash(passwordEncoder.encode(request.senha())); // hash da senha
+        usuario.setSenhaHash(request.senha());
 
         Usuario salvo = usuarioRepository.save(usuario);
         return usuarioMapper.toResponse(salvo);
