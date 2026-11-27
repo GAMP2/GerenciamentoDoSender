@@ -49,6 +49,17 @@ public record UsuarioRequest(
         int preferenciaMin,
 
         @Min(value = 16, message = "A preferência máxima de idade não pode ser menor que 16 anos")
-        int preferenciaMax
+        int preferenciaMax,
 
+        String avatarUrl,
+
+        String bannerUrl,
+
+        String musicaTitulo,
+
+        String musicaArtista,
+
+        String musicaCapaUrl,
+
+        Boolean temaEscuro
 ) {}
