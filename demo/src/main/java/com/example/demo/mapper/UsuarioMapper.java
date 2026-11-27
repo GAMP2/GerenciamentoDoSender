@@ -25,6 +25,14 @@ public class UsuarioMapper {
         usuario.setObjetivo(request.objetivo());
         usuario.setPreferenciaMin(request.preferenciaMin());
         usuario.setPreferenciaMax(request.preferenciaMax());
+        usuario.setAvatarUrl(request.avatarUrl());
+        usuario.setBannerUrl(request.bannerUrl());
+        usuario.setMusicaTitulo(request.musicaTitulo());
+        usuario.setMusicaArtista(request.musicaArtista());
+        usuario.setMusicaCapaUrl(request.musicaCapaUrl());
+        if (request.temaEscuro() != null) {
+            usuario.setTemaEscuro(request.temaEscuro());
+        }
         return usuario;
     }
 
@@ -47,7 +55,13 @@ public class UsuarioMapper {
                 usuario.getPreferenciaMax(),
                 usuario.isVerificado(),
                 usuario.getCriadoEm(),
-                null
+                null,
+                usuario.getAvatarUrl(),
+                usuario.getBannerUrl(),
+                usuario.getMusicaTitulo(),
+                usuario.getMusicaArtista(),
+                usuario.getMusicaCapaUrl(),
+                usuario.getTemaEscuro()
         );
     }
 }
