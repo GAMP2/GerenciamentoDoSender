@@ -85,10 +85,10 @@ public class UsuarioService {
         if (dadosNovos.getObjetivo() != null) {
             usuarioExistente.setObjetivo(dadosNovos.getObjetivo());
         }
-        if (dadosNovos.getPreferenciaMin() != null && dadosNovos.getPreferenciaMin() > 0) {
+        if (dadosNovos.getPreferenciaMin() != null && dadosNovos.getPreferenciaMin() >= 16) {
             usuarioExistente.setPreferenciaMin(dadosNovos.getPreferenciaMin());
         }
-        if (dadosNovos.getPreferenciaMax()!=null && dadosNovos.getPreferenciaMax() > 0) {
+        if (dadosNovos.getPreferenciaMax()!=null && dadosNovos.getPreferenciaMax() > 16) {
             usuarioExistente.setPreferenciaMax(dadosNovos.getPreferenciaMax());
         }
 
