@@ -64,6 +64,24 @@ public class Usuario {
     @Column(name = "idade_pref_max")
     private Integer preferenciaMax;
 
+    @Column(name = "avatar_url", columnDefinition = "TEXT")
+    private String avatarUrl;
+
+    @Column(name = "banner_url", columnDefinition = "TEXT")
+    private String bannerUrl;
+
+    @Column(name = "musica_titulo", length = 150)
+    private String musicaTitulo;
+
+    @Column(name = "musica_artista", length = 150)
+    private String musicaArtista;
+
+    @Column(name = "musica_capa_url", columnDefinition = "TEXT")
+    private String musicaCapaUrl;
+
+    @Column(name = "tema_escuro")
+    private Boolean temaEscuro = true;
+
     @Column(name = "oculto_feed", nullable = false)
     private boolean ocultoFeed;
 
@@ -79,4 +97,6 @@ public class Usuario {
 
     @Column(name = "deletado_em")
     private LocalDateTime deletadoEm;
+
+
 }
