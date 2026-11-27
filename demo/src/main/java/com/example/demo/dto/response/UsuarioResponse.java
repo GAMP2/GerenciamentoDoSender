@@ -23,5 +23,11 @@ public record UsuarioResponse(
         Integer preferenciaMax,
         boolean verificado,
         LocalDateTime criadoEm,
-        LocalDateTime lidoEm
+        LocalDateTime lidoEm,
+        String avatarUrl,
+        String bannerUrl,
+        String musicaTitulo,
+        String musicaArtista,
+        String musicaCapaUrl,
+        Boolean temaEscuro
 ) {}
