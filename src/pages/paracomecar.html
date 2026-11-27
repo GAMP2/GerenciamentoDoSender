@@ -1,45 +1,89 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sender - Para começar</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/style.css">
 </head>
-<body>
+<body class="autenticacao">
 
-    <!-- Parte de introdução -->
-    <h1>Para começar</h1>
-    <p>Essa informações você poderá mudar a qualquer momento após o cadastro.</p>
+    <main class="tela onboarding">
 
-    <!-- Parte de escolha de nickname -->
-    <h2>Digite seu nickname</h2>
-     <div class="borda">
-        <input type="text" placeholder="Nickname">
-    </div>
+        <header class="topo"></header>
 
-<!-- Parte de escolha de nome de usuário -->
-    <h2>Como deseja ser chamado?</h2>
-    <div class="borda">
-        <input type="text" placeholder="Nome de Usuário">
-    </div>
+        <section class="corpo">
 
-    <!-- Parte de escolha de gênero -->
-    <h2> Qual gênero você se identifica?</h2>
-    <div class="borda">
-        <select name="genero" id="genero">
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-        
-        </select>
-    </div>
+            <h1>Para começar...</h1>
 
-    <nav>
-        <a class="button" href="faltapouco.html">Continuar</a>
-    </nav>
+            <p class="apoio">
+                Essas informações você poderá mudar a qualquer momento após o cadastro.
+            </p>
+
+            <form id="dadosPerfil" method="post">
+
+                <label class="rotulo" for="nickname">
+                    Digite seu nickname
+                </label>
+
+                <div class="borda">
+                    <input type="text"
+                           id="nickname"
+                           name="nickname"
+                           placeholder="Nickname"
+                           required>
+                </div>
+
+                <label class="rotulo" for="nomeUsuario">
+                    Como deseja ser chamado?
+                </label>
+
+                <div class="borda">
+                    <input type="text"
+                           id="nomeUsuario"
+                           name="nomeUsuario"
+                           placeholder="Nome de usuário"
+                           required>
+                </div>
+
+                <label class="rotulo" for="genero">
+                    Qual gênero você se identifica?
+                </label>
+
+                <div class="borda">
+                    <select name="genero" id="genero" required>
+                        <option value="">Selecione</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="outro">Outro</option>
+                        <option value="naoInformar">Prefiro não informar</option>
+                    </select>
+                </div>
+
+                <button class="botao" type="submit">
+                    Continuar...
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script>
+
+        document.getElementById('dadosPerfil').addEventListener('submit', function (evento) {
+
+            evento.preventDefault();
+
+            window.location.href = 'faltapouco.html';
+
+        });
+
+    </script>
 
 </body>
 </html>

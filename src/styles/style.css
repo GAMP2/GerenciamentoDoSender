@@ -1,25 +1,369 @@
-body {
-    width: 390px;
-    height: 844px;
-    background: linear-gradient(to right, #90E39A 0%, #08BDBD 20%, #9B72CF 40%, #81001F 60%, #E32E73 80%, #FCA311 100%);
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap');
+
+/* Estrutura das telas */
+
+.autenticacao,
+.tela-fluxo {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: #000;
+    background: var(--gradiente);
 }
 
-.topo{
+.tela {
+    width: 100%;
+    max-width: 460px;
+    min-height: 100vh;
+    margin: auto;
     display: flex;
-    padding: 216px 116px 41px 31px;
-    font-family: var(--font-title);
-    font-size: 20px;
+    flex-direction: column;
+}
+
+.topo {
+    flex: 1;
+    min-height: 80px;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px 12px;
     color: white;
-    width: 246px;
-    height: 50px;
 }
 
-.corpo{
-    display: flex;
+.corpo,
+.cartao {
     background: white;
-    width: 393px;
-    height: 545px;
-    border-radius: 40px 40px 0px 0px;
+    padding: 32px;
+    border-radius: 40px 40px 0 0;
+}
+
+.tela-fluxo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.cartao {
+    width: 100%;
+    max-width: 460px;
+    min-height: 55vh;
+}
+
+/* Proporções das telas */
+
+.login .corpo {
+    min-height: 64vh;
+}
+
+.registro .corpo {
+    min-height: 79vh;
+}
+
+.recuperacao .corpo {
+    min-height: 55vh;
+}
+
+.onboarding .corpo {
+    min-height: 85vh;
+}
+
+/* Títulos */
+
+.topo h1 {
+    font-family: var(--font-title);
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    text-shadow: 2px 3px 5px #00000020;
+    margin: 0;
+}
+
+.corpo h1,
+.corpo h2,
+.cartao h1 {
+    font-family: var(--font-title);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin: 0 0 16px;
+}
+
+/* Textos auxiliares */
+
+.apoio,
+.dica,
+.aviso,
+.reenvio {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.apoio {
+    margin: 0 0 32px;
+}
+
+.dica {
+    margin: 0 0 16px;
+}
+
+.aviso:empty {
+    display: none;
+}
+
+.rotulo {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Formulários */
+
+.corpo form,
+.cartao form {
+    margin: 0;
+}
+
+.borda {
+    padding: 2px;
+    margin-bottom: 24px;
+    border-radius: 10px;
+    background: var(--gradiente);
+}
+
+.borda input,
+.borda select {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    padding: 0 12px;
     border: none;
-    align-items: flex-start;
+    border-radius: 8px;
+    background: white;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: #000;
+}
+
+.borda input::placeholder {
+    color: #808080;
+}
+
+.borda input:focus,
+.borda select:focus {
+    outline: none;
+}
+
+.borda:focus-within {
+    outline: 2px solid var(--color-amgcolor300);
+    outline-offset: 2px;
+}
+
+.interno {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+}
+
+/* Visibilidade da senha */
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+.olho {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    background-image: url('../assets/images/olho.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    cursor: pointer;
+}
+
+.olho[aria-pressed="true"] {
+    background-image: url('../assets/images/olho-fechado.svg');
+}
+
+/* Código de verificação */
+
+.borda .campo-codigo {
+    height: 48px;
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 10px;
+}
+
+/* Botões */
+
+.botao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 40px;
+    margin: 32px 0 0;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: var(--gradiente);
+    color: white;
+    font-family: var(--font-title);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.botao:disabled,
+.link:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Links */
+
+.link,
+.esqueci,
+.voltar,
+.cadastro {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #000;
+}
+
+.link,
+.link:visited {
+    display: block;
+    margin: 16px 0;
+    text-align: center;
+    border: none;
+    background: none;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.esqueci,
+.esqueci:visited {
+    display: block;
+    text-align: right;
+    color: #000;
+    font-weight: 600;
+}
+
+.voltar,
+.voltar:visited {
+    display: block;
+    margin-bottom: 24px;
+    color: #000;
+    text-decoration: none;
+}
+
+.cadastro {
+    text-align: center;
+}
+
+.cadastro a,
+.cadastro a:visited {
+    color: #000;
+    font-weight: 600;
+}
+
+/* Links inferiores */
+
+.links-inferiores {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.reenvio {
+    text-align: center;
+    margin: 32px 0;
+}
+
+.reenvio span,
+.reenvio strong {
+    display: block;
+}
+
+/* Tela de login */
+
+.login .corpo {
+    padding-top: 40px;
+}
+
+.login .corpo h2 {
+    margin-bottom: 40px;
+}
+
+.login form {
+    margin: 0 16px;
+}
+
+.login .borda:last-of-type {
+    margin-bottom: 8px;
+}
+
+.login .botao {
+    margin-top: 56px;
+}
+
+.login .cadastro {
+    margin-top: 64px;
+}
+
+/* Tela de cadastro */
+
+.registro .corpo h1 {
+    margin-bottom: 32px;
+}
+
+/* Tela de interesses */
+
+.interesses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.interesse {
+    padding: 6px 12px;
+    border: 1px solid var(--color-amgcolor200);
+    border-radius: 20px;
+    background: white;
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.interesse.selecionado {
+    background: var(--color-amgclaro100);
+}
+
+.interesse[hidden] {
+    display: none;
+}
+
+/* Carregamento da tela de boas-vindas */
+
+.carregamento {
+    width: 100%;
+    height: 8px;
+    accent-color: var(--color-amgcolor200);
 }

@@ -1,28 +1,89 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sender - Falta pouco</title>
-     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/style.css">
 </head>
-<body>
+<body class="autenticacao">
 
-    <h1>Falta pouco...</h1>
-    <p>Essas informações você NÃO poderá mudar após o cadastro. Muita atenção durante essa etapa! </p>
+    <main class="tela onboarding">
 
-    <h2> Digite seu nome completo:</h2>
-    <input type="text" placeholder="Nome completo">
+        <header class="topo"></header>
 
-    <h2> Data de nascimento:</h2>
-    <input type="date">
+        <section class="corpo">
 
-<nav>
-<a class="button_voltar" href="paracomecar.html">Voltar</a>
-<a class="button" href="interreses.html">Continuar</a>
-</nav>
+            <h1>Falta pouco...</h1>
+
+            <p class="apoio">
+                Essas informações você não poderá mudar após o cadastro.
+                Muita atenção durante essa etapa!
+            </p>
+
+            <form id="dadosPessoais" method="post">
+
+                <label class="rotulo" for="nomeCompleto">
+                    Digite seu nome completo
+                </label>
+
+                <div class="borda">
+                    <input type="text"
+                           id="nomeCompleto"
+                           name="nomeCompleto"
+                           placeholder="Nome completo"
+                           required>
+                </div>
+
+                <label class="rotulo" for="dataNascimento">
+                    Data de nascimento
+                </label>
+
+                <div class="borda">
+                    <input type="date"
+                           id="dataNascimento"
+                           name="dataNascimento"
+                           required>
+                </div>
+
+                <a class="voltar" href="paracomecar.html">
+                    ← Voltar para a etapa anterior.
+                </a>
+
+                <button class="botao" type="submit">
+                    Continuar...
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script>
+
+        const nascimento = document.getElementById('dataNascimento');
+
+        const hoje = new Date();
+
+        const ano = hoje.getFullYear();
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoje.getDate()).padStart(2, '0');
+
+        nascimento.max = `${ano}-${mes}-${dia}`;
+
+        document.getElementById('dadosPessoais').addEventListener('submit', function (evento) {
+
+            evento.preventDefault();
+
+            window.location.href = 'interesses.html';
+
+        });
+
+    </script>
+
 </body>
 </html>

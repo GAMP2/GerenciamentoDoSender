@@ -1,44 +1,101 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Magabys, Pedro, Andre and Madu">
     <title>Sender - Nova senha</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Sora:wght@600&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/esqueci-senha.css">
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <script src="../scripts/autenticacao.js" defer></script>
 </head>
 <body class="tela-fluxo">
+
     <main class="cartao">
+
         <h1>Crie uma nova senha</h1>
-        <p class="apoio">Escolha uma senha forte que você ainda não usou!</p>
 
-        <form action="senha-alterada.html" method="get">
-            <label class="rotulo" for="nova-senha">Nova senha</label>
+        <p class="apoio">
+            Escolha uma senha forte que você ainda não usou!
+        </p>
+
+        <form id="novaSenha" method="post">
+
+            <label class="rotulo" for="senha">
+                Nova senha
+            </label>
+
             <div class="borda">
-                <input type="password" id="nova-senha" name="nova-senha" placeholder="Digite sua nova senha"
-                       autocomplete="new-password" required minlength="8"
-                       pattern="(?=.*\d)(?=.*[A-Z]).{8,}"
-                       title="Mínimo de 8 caracteres, com 1 número e 1 letra maiúscula">
+                <div class="interno">
+
+                    <input type="password"
+                           id="senha"
+                           name="senha"
+                           placeholder="Digite sua nova senha"
+                           autocomplete="new-password"
+                           minlength="8"
+                           required>
+
+                    <button type="button"
+                            class="olho"
+                            aria-controls="senha"
+                            aria-label="Mostrar senha"
+                            aria-pressed="false">
+                    </button>
+
+                </div>
             </div>
 
-            <label class="rotulo" for="confirmar-senha">Confirmar nova senha</label>
+            <label class="rotulo" for="confirmarSenha">
+                Confirmar nova senha
+            </label>
+
             <div class="borda">
-                <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Repita a nova senha"
-                       autocomplete="new-password" required minlength="8">
+                <div class="interno">
+
+                    <input type="password"
+                           id="confirmarSenha"
+                           name="confirmarSenha"
+                           placeholder="Repita a nova senha"
+                           autocomplete="new-password"
+                           minlength="8"
+                           required>
+
+                    <button type="button"
+                            class="olho"
+                            aria-controls="confirmarSenha"
+                            aria-label="Mostrar senha"
+                            aria-pressed="false">
+                    </button>
+
+                </div>
             </div>
 
-            <p class="dica">Mínimo de 8 caracteres, com 1 número e 1 letra maiúscula.</p>
+            <p class="dica">
+                Use pelo menos 8 caracteres.
+            </p>
 
-            <button class="botao" type="submit">Redefinir senha</button>
+            <button class="botao" type="submit" disabled>
+                Próximo
+            </button>
+
         </form>
 
-        <a class="link" href="#">Precisa de ajuda? <u>Suporte</u></a>
+        <div class="links-inferiores">
+
+            <a class="link" href="index.html">
+                Voltar ao início
+            </a>
+
+            <a class="link" href="#">
+                Precisa de ajuda? <u>Suporte</u>
+            </a>
+
+        </div>
+
     </main>
+
 </body>
 </html>

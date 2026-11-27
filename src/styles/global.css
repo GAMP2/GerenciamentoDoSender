@@ -1,6 +1,6 @@
-:root{
-/* ------------ AMIZADE ------------ */
 
+:root {
+    /* Cores de amizade */
     --color-amgcolor100: #90E39A;
     --color-amgcolor200: #08BDBD;
     --color-amgcolor300: #9B72CF;
@@ -13,12 +13,10 @@
     --color-amgescuro200: #257B7B;
     --color-amgescuro300: #442072;
 
-/* ------------ ROMANCE ------------ */
-
+    /* Cores de romance */
     --color-romcolor400: #FCA311;
-     --color-romcolor500: #E32E73;
-     --color-romcolor600: #81001F;
-    
+    --color-romcolor500: #E32E73;
+    --color-romcolor600: #81001F;
 
     --color-romclaro400: #FDD188;
     --color-romclaro500: #F197B9;
@@ -28,11 +26,23 @@
     --color-romescuro500: #B40A4B;
     --color-romescuro600: #4E0F1E;
 
-/* ------------ FONTES ------------ */
-
+    /* Fontes */
     --font-title: "Sora", sans-serif;
     --font-body: "Inter", sans-serif;
     --font-button: "Roboto Mono", monospace;
 
+    /* Gradiente principal */
+    --gradiente: linear-gradient(
+        to right,
+        #90E39A,
+        #08BDBD,
+        #9B72CF,
+        #81001F,
+        #E32E73,
+        #FCA311
+    );
+}
 
+* {
+    box-sizing: border-box;
 }

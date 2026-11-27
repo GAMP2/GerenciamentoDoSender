@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sender - Cadastro</title>
+
+    <link rel="stylesheet" href="../styles/global.css">
+    <link rel="stylesheet" href="../styles/style.css">
+
+    <script src="../scripts/autenticacao.js" defer></script>
+</head>
+<body class="autenticacao">
+
+    <main class="tela registro">
+
+        <header class="topo"></header>
+
+        <section class="corpo">
+
+            <a href="index.html" class="voltar">
+                ← Voltar para a tela de login.
+            </a>
+
+            <h1>Cadastre-se!</h1>
+
+            <form id="cadastro" method="post">
+
+                <div class="borda">
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           placeholder="E-mail"
+                           aria-label="E-mail"
+                           autocomplete="email"
+                           required>
+                </div>
+
+                <div class="borda">
+                    <input type="tel"
+                           id="telefone"
+                           name="telefone"
+                           placeholder="Telefone"
+                           aria-label="Telefone"
+                           autocomplete="tel"
+                           required>
+                </div>
+
+                <div class="borda">
+                    <div class="interno">
+                        <input type="password"
+                               id="senha"
+                               name="senha"
+                               placeholder="Senha"
+                               aria-label="Senha"
+                               autocomplete="new-password"
+                               minlength="8"
+                               required>
+
+                        <button type="button"
+                                class="olho"
+                                aria-controls="senha"
+                                aria-label="Mostrar senha"
+                                aria-pressed="false">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="borda">
+                    <div class="interno">
+                        <input type="password"
+                               id="confirmarSenha"
+                               name="confirmarSenha"
+                               placeholder="Confirme sua senha"
+                               aria-label="Confirme sua senha"
+                               autocomplete="new-password"
+                               minlength="8"
+                               required>
+
+                        <button type="button"
+                                class="olho"
+                                aria-controls="confirmarSenha"
+                                aria-label="Mostrar senha"
+                                aria-pressed="false">
+                        </button>
+                    </div>
+                </div>
+
+                <p class="dica">
+                    Use pelo menos 8 caracteres.
+                </p>
+
+                <button class="botao" type="submit" disabled>
+                    Criar conta
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
