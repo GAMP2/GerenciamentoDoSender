@@ -4,11 +4,16 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 @Entity
 @Table(name = "interesses")
 public class Interesses {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(length = 36, updatable = false, nullable = false)
     private UUID id;
 
     @Column(nullable = false, unique = true)
