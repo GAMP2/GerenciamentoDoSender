@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.request.DestaqueRequest;
-import com.example.demo.dto.response.DestaqueResponse;
+import com.example.demo.entity.DestaquePerfil;
 import com.example.demo.service.DestaquePerfilService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,27 +13,30 @@ import java.util.UUID;
 @RequestMapping("/usuarios/{usuarioId}/destaques")
 public class DestaquePerfilController {
 
-    private final DestaquePerfilService destaqueService;
+    private final DestaquePerfilService service;
 
-    public DestaquePerfilController(DestaquePerfilService destaqueService) {
-        this.destaqueService = destaqueService;
+    public DestaquePerfilController(DestaquePerfilService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<DestaqueResponse> criar(@PathVariable UUID usuarioId,
-                                                  @Valid @RequestBody DestaqueRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(destaqueService.criar(usuarioId, request));
+    public ResponseEntity<DestaquePerfil> criar(@PathVariable UUID usuarioId, @RequestBody DestaquePerfil destaque) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.criar(usuarioId, destaque));
     }
 
     @GetMapping
-    public ResponseEntity<List<DestaqueResponse>> listar(@PathVariable UUID usuarioId) {
-        return ResponseEntity.ok(destaqueService.listarPorUsuario(usuarioId));
+    public ResponseEntity<List<DestaquePerfil>> listar(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(service.listar(usuarioId));
+    }
+
+    @PatchMapping("/{destaqueId}")
+    public ResponseEntity<DestaquePerfil> atualizar(@PathVariable UUID destaqueId, @RequestBody DestaquePerfil dadosNovos) {
+        return ResponseEntity.ok(service.atualizar(destaqueId, dadosNovos));
     }
 
     @DeleteMapping("/{destaqueId}")
-    public ResponseEntity<Void> deletar(@PathVariable UUID usuarioId,
-                                        @PathVariable UUID destaqueId) {
-        destaqueService.deletar(destaqueId);
+    public ResponseEntity<Void> deletar(@PathVariable UUID destaqueId) {
+        service.deletar(destaqueId);
         return ResponseEntity.noContent().build();
     }
 }
